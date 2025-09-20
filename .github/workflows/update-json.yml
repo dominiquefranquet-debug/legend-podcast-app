@@ -2,23 +2,26 @@ name: Update Legend Episodes JSON
 
 on:
   schedule:
-    - cron: "0 2 * * *" # Tous les jours à 2h du matin UTC
-  workflow_dispatch: # Lancement manuel possible
+    - cron: "0 2 * * *" # tous les jours à 02:00 UTC
+  workflow_dispatch: # permet de lancer manuellement
+
+permissions:
+  contents: write
 
 jobs:
   update-json:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install node-fetch fast-xml-parser
+        run: npm install fast-xml-parser
 
       - name: Run script
         run: node generateLegendJSON.js
