@@ -1,36 +1,25 @@
-name: Update Legend Episodes JSON
-
-on:
-  schedule:
-    - cron: "0 */6 * * *" # toutes les 6h
-  workflow_dispatch: # déclenchement manuel
-
 jobs:
-  update-json:
+  update:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: Install deps
         run: npm install fast-xml-parser
 
-      - name: Generate JSON
+      - name: Run script
+        working-directory: ./mobile
         run: node generateLegendJSON.js
 
-      - name: Commit and push if changed
+      - name: Commit and push
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet legendEpisodes.json; then
-            echo "✅ No changes in legendEpisodes.json"
-          else
-            git add legendEpisodes.json
-            git commit -m "🔄 Update legendEpisodes.json [skip ci]"
-            git push
-          fi
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add legendEpisodes.json
+          git commit -m "Update JSON"
+          git push
