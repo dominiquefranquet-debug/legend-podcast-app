@@ -20,7 +20,7 @@ jobs:
         run: npm install fast-xml-parser
 
       - name: Run generator
-        working-directory: ./mobile
+        working-directory: /mobile
         run: node generateLegendJSON.js
 
       - name: Commit and push updated JSON
