@@ -1,3 +1,10 @@
+name: Update Legend Episodes JSON
+
+on:
+  schedule:
+    - cron: "0 */6 * * *" # toutes les 6 heures
+  workflow_dispatch: # exécution manuelle possible
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -9,17 +16,17 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install deps
+      - name: Install dependencies
         run: npm install fast-xml-parser
 
-      - name: Run script
+      - name: Run generator
         working-directory: ./mobile
         run: node generateLegendJSON.js
 
-      - name: Commit and push
+      - name: Commit and push updated JSON
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add legendEpisodes.json
-          git commit -m "Update JSON"
+          git add mobile/legendEpisodes.json
+          git commit -m "🔄 Mise à jour des épisodes JSON"
           git push
