@@ -8,6 +8,8 @@ on:
 jobs:
   update:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write   # <--- indispensable pour pousser les commits
 
     steps:
       - name: Checkout repo
